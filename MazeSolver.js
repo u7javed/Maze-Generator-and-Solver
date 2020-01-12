@@ -180,25 +180,25 @@ function titleScreen() {
   if(mouseX > 240 && mouseX < 520 && mouseY > 400 && mouseY < 480) {
     fill(81, 255, 56, 160);
   } else {
-    fill(0, 188, 255);
+    fill(255, 129, 33);
   }
   rect(240, 400, 280, 80);
   if(mouseX > 800 && mouseX < 1120 && mouseY > 400 && mouseY < 480) {
     fill(81, 255, 56, 160);
   } else {
-    fill(0, 188, 255);
+    fill(255, 129, 33);
   }
   rect(800, 400, 320, 80);
   if(mouseX > 1400 && mouseX < 1680 && mouseY > 400 && mouseY < 480) {
     fill(81, 255, 56, 160);
   } else {
-    fill(0, 188, 255);
+    fill(255, 129, 33);
   }
   rect(1400, 400, 280, 80);
   if(mouseX > 800 && mouseX < 1120 && mouseY > 600 && mouseY < 680) {
     fill(255, 10, 5, 160);
   } else {
-    fill(0, 188, 255);
+    fill(255, 129, 33);
   }
   rect(760, 600, 400, 80);
 

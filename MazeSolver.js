@@ -58,9 +58,9 @@ function resetVariables() {
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight)
-	resetVariables();
-	w = windowWidth/48;
+  resizeCanvas(windowWidth, windowHeight);
+  resetVariables();
+  w = windowWidth/48;
   titleScreenIsRunning = true;
   instructionsScreenIsRunning = false;
 }

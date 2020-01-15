@@ -1,5 +1,5 @@
 var cols, rows;
-var w = 40;
+var w;
 var grid = [];
 var current;
 var stack = [];
@@ -32,6 +32,7 @@ var directTest = false;
 var foundPath = false;
 var solveMaze = false;
 var question = false;
+var showAlert = true;
 
 function preload() {
   googleFontsCinzel = loadFont("assets/Abel-Regular.ttf");
@@ -56,8 +57,17 @@ function resetVariables() {
   createMaze = false;
 }
 
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight)
+	resetVariables();
+	w = windowWidth/48;
+  titleScreenIsRunning = true;
+  instructionsScreenIsRunning = false;
+}
+
 function setup() {
-  createCanvas(1920, 920);
+  createCanvas(windowWidth, windowHeight);
+  w = windowWidth/48;
 }
 
 function draw() {
@@ -76,47 +86,44 @@ function draw() {
 
 function mousePressed() {
   if(titleScreenIsRunning) {
-    if(mouseX > 240 && mouseX < 520 && mouseY > 400 && mouseY < 480) {
+    if(mouseX > w*7 && mouseX < (w*7 + w*7) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
       cols = 20;
       rows = 20;
-      wid = 800;
-      hei = 800;
+      wid = w*20;
+      hei = w*20;
       generateArray();
       titleScreenIsRunning = false;
       createMaze = true;
-    } else if(mouseX > 800 && mouseX < 1120 && mouseY > 400 && mouseY < 480) {
+    } else if(mouseX > w*21 && mouseX < (w*21 + w*8) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
       cols = 48;
       rows = 23;
-      wid = 1920;
-      hei = 920;
+      wid = w*48;
+      hei = w*23;
       generateArray();
       titleScreenIsRunning = false;
       createMaze = true;
-    } else if(mouseX > 1400 && mouseX < 1680 && mouseY > 400 && mouseY < 480) {
+    } else if(mouseX > w*36 && mouseX < (w*36 + w*7) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
       cols = 10;
       rows = 10;
-      wid = 400;
-      hei = 400;
+      wid = w*10;
+      hei = w*10;
       generateArray();
       titleScreenIsRunning = false;
       createMaze = true;
-    } else if(mouseX > 760 && mouseX < 1160 && mouseY > 600 && mouseY < 680) {
+    } else if(mouseX > w*20 && mouseX < (w*20 + w*10) && mouseY > (w*16) && mouseY < (w*16 + w*2)) {
       titleScreenIsRunning = false;
       instructionsScreenIsRunning = true;
     }
   } else if(question) {
-    if(mouseX > 640 && mouseX < 840 && mouseY > 160 && mouseY < 240 && wid == 400) {
+    if(mouseX > w*20 && mouseX < (w*20 + w*5) && mouseY > w*10 && mouseY < (w*10 + w*2) && wid == w*48) {
       question = false;
       solveMaze = true;
-    } else if(mouseX > 1040 && mouseX < 1240 && mouseY > 360 && mouseY < 420 && wid == 800) {
-      question = false;
-      solveMaze = true;
-    } else if(mouseX > 800 && mouseX < 1000 && mouseY > 440 && mouseY < 520 && wid == 1920) {
+    } else if(mouseX > (wid + w*5) && mouseX < (wid + w*5 + w*5) && mouseY > (w*5) && mouseY < (w*5 + w*2) && (wid == w*20 || wid == w*10)) {
       question = false;
       solveMaze = true;
     }
   } else if(instructionsScreenIsRunning) {
-    if(mouseX > 1720 && mouseX < 1880 && mouseY > 40 && mouseY < 80) {
+    if(mouseX > (w*43) && mouseX < (w*43 + w*4) && mouseY > w && mouseY < (w + w)) {
       instructionsScreenIsRunning = false;
       titleScreenIsRunning = true;
     }
@@ -147,7 +154,7 @@ function generateArray() {
 }
 
 function generateMap() {
-  for(var i = 0; i < width; i += 40) {
+  for(var i = 0; i < width; i += width/48) {
     push();
     strokeWeight(1);
     stroke(0)
@@ -155,7 +162,7 @@ function generateMap() {
     pop();
   }
 
-  for(var i = 0; i < height; i += 40) {
+  for(var i = 0; i < height; i += width/48) {
     push();
     strokeWeight(1);
     stroke(0)
@@ -169,61 +176,59 @@ function titleScreen() {
   generateMap();
 
   textFont(googleFontsCinzel);
-  textSize(50);
+  textSize(w + 6);
   fill(0, 188, 255);
-  rect(720, 80, 360, 80);
+  rect(w*18, w*3, w*9, w*2);
   fill(0);
-  text("MAZE GENERATOR", width/3 + 80, 118);
-  text("AND MAZE SOLVER", width/3 + 80, 158);
+  text("MAZE GENERATOR", w*18 + w/2, w*3 + w);
+  text("AND MAZE SOLVER", w*18 + w/2.6, w*3 + w/0.52);
   push();
   fill(0, 188, 255);
-  if(mouseX > 240 && mouseX < 520 && mouseY > 400 && mouseY < 480) {
+  if(mouseX > w*7 && mouseX < (w*7 + w*7) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
     fill(81, 255, 56, 160);
   } else {
-    fill(255, 129, 33);
+    fill(0, 188, 255);
   }
-  rect(240, 400, 280, 80);
-  if(mouseX > 800 && mouseX < 1120 && mouseY > 400 && mouseY < 480) {
+  rect(w*7, w*11, w*7, w*2);
+  if(mouseX > w*21 && mouseX < (w*21 + w*8) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
     fill(81, 255, 56, 160);
   } else {
-    fill(255, 129, 33);
+    fill(0, 188, 255);
   }
-  rect(800, 400, 320, 80);
-  if(mouseX > 1400 && mouseX < 1680 && mouseY > 400 && mouseY < 480) {
+  rect(w*21, w*11, w*8, w*2);
+  if(mouseX > w*36 && mouseX < (w*36 + w*7) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
     fill(81, 255, 56, 160);
   } else {
-    fill(255, 129, 33);
+    fill(0, 188, 255);
   }
-  rect(1400, 400, 280, 80);
-  if(mouseX > 800 && mouseX < 1120 && mouseY > 600 && mouseY < 680) {
+  rect(w*36, w*11, w*7, w*2);
+  if(mouseX > w*20 && mouseX < (w*20 + w*10) && mouseY > (w*16) && mouseY < (w*16 + w*2)) {
     fill(255, 10, 5, 160);
   } else {
-    fill(255, 129, 33);
+    fill(0, 188, 255);
   }
-  rect(760, 600, 400, 80);
+  rect(w*20, w*16, w*10, w*2);
 
   fill(200, 188, 255);
   push();
-  rotate(-PI/4);
-  rect(-114, 283, 283, 57);
+  rect(w*3, w*3, w*9, w*2);
   fill(0);
-  textSize(30);
-  text("DEPTH-FIRST SEARCH",-112, 310)
-  text("RECURSIVE BACKTRACK",-112, 335)
+  textSize(w - 2);
+  text("DEPTH-FIRST SEARCH",w*3 + w/12, w*3 + w/1.2)
+  text("RECURSIVE BACKTRACK",w*3 + w/12, w*3 + w/0.57)
 
-  rotate(PI/2);
   fill(188, 255, 188);
-  rect(1188, -1075, 283, 57)
+  rect(w*36, w*3, w*9, w*2)
   fill(0);
-  text("A* SEARCH ALGORITHM",1190, -1048)
-  text("OPTIMAL PATH FINDING",1192, -1022)
+  text("A* SEARCH ALGORITHM", w*36 + w/12, w*3 + w/1.2)
+  text("OPTIMAL PATH FINDING", w*36 + w/12, w*3 + w/0.57)
   pop();
 
   fill(0, 188, 255);
-  rect(760, 800, 400, 80);
+  rect(w*20, w*20, w*10, w*2);
   fill(0);
-  textSize(80);
-  text("UMER JAVED", 766, 870);
+  textSize(w + w/1.4);
+  text("UMER JAVED", w*20 + w/1.4, w*20 + w/0.6);
 
   pop();
 
@@ -233,49 +238,48 @@ function titleScreen() {
 function generateLineComplexity() {
   push();
   strokeWeight(4);
-
   /*
   LINE 1
   */
-  if(mouseX > 240 && mouseX < 520 && mouseY > 400 && mouseY < 480) {
+  if(mouseX > w*7 && mouseX < (w*7 + w*7) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
     stroke(81, 255, 56, 160);
-  } else if(mouseX > 760 && mouseX < 1160 && mouseY > 600 && mouseY < 680){
+  } else if(mouseX > w*20 && mouseX < (w*20 + w*10) && mouseY > (w*16) && mouseY < (w*16 + w*2)){
     stroke(255, 10, 5);
   } else {
     stroke(0);
   }
-  line(740, 162, 740, 180);
-  line(740, 180, 660, 180);
-  line(660, 180, 660, 260);
-  line(660, 260, 580, 260);
-  line(580, 260, 580, 300);
+  line(w*18.5, w*5 + 2, w*18.5, w*5.5);
+  line(w*18.5, w*5.5, w*16.5, w*5.5);
+  line(w*16.5, w*5.5, w*16.5, w*7.5);
+  line(w*16.5, w*7.5, w*14.5, w*7.5);
+  line(w*14.5, w*7.5, w*14.5, w*8.5);
 
-  if(mouseX > 240 && mouseX < 520 && mouseY > 400 && mouseY < 480) {
+  if(mouseX > w*7 && mouseX < (w*7 + w*7) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
     stroke(81, 255, 56, 160);
   } else {
     stroke(0);
   }
-  line(580, 300, 540, 300);
-  line(540, 300, 540, 340);
-  line(540, 340, 380, 340);
-  line(380, 340, 380, 399);
+  line(w*14.5, w*8.5, w*13.5, w*8.5);
+  line(w*13.5, w*8.5, w*13.5, w*9.5);
+  line(w*13.5, w*9.5, w*9.5, w*9.5);
+  line(w*9.5, w*9.5, w*9.5, w*11 - 1);
 
-  if(mouseX > 760 && mouseX < 1160 && mouseY > 600 && mouseY < 680){
+  if(mouseX > w*20 && mouseX < (w*20 + w*10) && mouseY > (w*16) && mouseY < (w*16 + w*2)){
     stroke(255, 10, 5);
   } else {
     stroke(0);
   }
   //BRANCH OFF
-  line(580, 300, 660, 300);
-  line(660, 300, 660, 420);
-  line(660, 420, 700, 420);
-  line(700, 420, 700, 500);
-  line(700, 500, 740, 500);
-  line(740, 500, 740, 540);
-  line(740, 540, 780, 540);
-  line(780, 540, 780, 580);
-  line(780, 580, 900, 580);
-  line(900, 580, 900, 599);
+  line(w*14.5, w*8.5, w*16.5, w*8.5);
+  line(w*16.5, w*8.5, w*16.5, w*11.5);
+  line(w*16.5, w*11.5, w*17.5, w*11.5);
+  line(w*17.5, w*11.5, w*17.5, w*13.5);
+  line(w*17.5, w*13.5, w*18.5, w*13.5);
+  line(w*18.5, w*13.5, w*18.5, w*14.5);
+  line(w*18.5, w*14.5, w*19.5, w*14.5);
+  line(w*19.5, w*14.5, w*19.5, w*15.5);
+  line(w*19.5, w*15.5, w*22.5, w*15.5);
+  line(w*22.5, w*15.5, w*22.5, w*16 - 1);
   //BRANCH OFF
 
   /*
@@ -285,47 +289,47 @@ function generateLineComplexity() {
   /*
   LINE 2
   */
-  if(mouseX > 800 && mouseX < 1120 && mouseY > 400 && mouseY < 480) {
+  if(mouseX > w*21 && mouseX < (w*21 + w*8) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
     stroke(81, 255, 56, 160);
-  } else if(mouseX > 760 && mouseX < 1160 && mouseY > 600 && mouseY < 680){
+  } else if(mouseX > w*20 && mouseX < (w*20 + w*10) && mouseY > (w*16) && mouseY < (w*16 + w*2)){
     stroke(255, 10, 5);
   } else {
     stroke(0);
   }
-  line(860, 162, 860, 220);
-  line(860, 220, 900, 220);
-  line(900, 220, 900, 260);
-  line(900, 260, 1060, 260);
-  line(1060, 260, 1060, 300);
+  line(w*21.5, w*5 + 2, w*21.5, w*6.5);
+  line(w*21.5, w*6.5, w*22.5, w*6.5);
+  line(w*22.5, w*6.5, w*22.5, w*7.5);
+  line(w*22.5, w*7.5, w*26.5, w*7.5);
+  line(w*26.5, w*7.5, w*26.5, w*8.5);
 
-  if(mouseX > 800 && mouseX < 1120 && mouseY > 400 && mouseY < 480) {
+  if(mouseX > w*21 && mouseX < (w*21 + w*8) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
     stroke(81, 255, 56, 160);
   } else {
     stroke(0);
   }
-  line(1060, 300, 940, 300);
-  line(940, 300, 940, 340);
-  line(940, 340, 980, 340);
-  line(980, 340, 980, 399);
+  line(w*26.5, w*8.5, w*23.5, w*8.5);
+  line(w*23.5, w*8.5, w*23.5, w*9.5);
+  line(w*23.5, w*9.5, w*24.5, w*9.5);
+  line(w*24.5, w*9.5, w*24.5, w*11 - 1);
 
-  if(mouseX > 760 && mouseX < 1160 && mouseY > 600 && mouseY < 680){
+  if(mouseX > w*20 && mouseX < (w*20 + w*10) && mouseY > (w*16) && mouseY < (w*16 + w*2)){
     stroke(255, 10, 5);
   } else {
     stroke(0);
   }
   //BRANCH OFF
-  line(1060, 300, 1100, 300);
-  line(1100, 300, 1100, 340);
-  line(1100, 340, 1140, 340);
-  line(1140, 340, 1140, 380);
-  line(1140, 380, 1180, 380);
-  line(1180, 380, 1180, 460);
-  line(1180, 460, 1220, 460);
-  line(1220, 460, 1220, 500);
-  line(1220, 500, 1100, 500);
-  line(1100, 500, 1100, 540);
-  line(1100, 540, 980, 540);
-  line(980, 540, 980, 599);
+  line(w*26.5, w*7.5, w*27.5, w*7.5);
+  line(w*27.5, w*7.5, w*27.5, w*8.5);
+  line(w*27.5, w*8.5, w*28.5, w*8.5);
+  line(w*28.5, w*8.5, w*28.5, w*9.5);
+  line(w*28.5, w*9.5, w*29.5, w*9.5);
+  line(w*29.5, w*9.5, w*29.5, w*11.5);
+  line(w*29.5, w*11.5, w*30.5, w*11.5);
+  line(w*30.5, w*11.5, w*30.5, w*13.5);
+  line(w*30.5, w*13.5, w*27.5, w*13.5);
+  line(w*27.5, w*13.5, w*27.5, w*14.5);
+  line(w*27.5, w*14.5, w*24.5, w*14.5);
+  line(w*24.5, w*14.5, w*24.5, w*16 - 1);
   //BRANCH OFF
 
   /*
@@ -335,65 +339,68 @@ function generateLineComplexity() {
   /*
   LINE 3
   */
-  if(mouseX > 1400 && mouseX < 1680 && mouseY > 400 && mouseY < 480) {
+  if(mouseX > w*36 && mouseX < (w*36 + w*7) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
     stroke(81, 255, 56, 160);
-  } else if(mouseX > 760 && mouseX < 1160 && mouseY > 600 && mouseY < 680){
+  } else if(mouseX > w*20 && mouseX < (w*20 + w*10) && mouseY > (w*16) && mouseY < (w*16 + w*2)){
     stroke(255, 10, 5);
   } else {
     stroke(0);
   }
-  line(1060, 162, 1060, 220);
-  line(1060, 220, 1220, 220);
-  line(1220, 220, 1220, 260);
-  line(1220, 260, 1260, 260);
-  line(1260, 260, 1260, 300);
-  line(1260, 300, 1380, 300);
+  line(w*26.5, w*5 + 2, w*26.5, w*6.5);
+  line(w*26.5, w*6.5, w*30.5, w*6.5);
+  line(w*30.5, w*6.5, w*30.5, w*7.5);
+  line(w*30.5, w*7.5, w*31.5, w*7.5);
+  line(w*31.5, w*7.5, w*31.5, w*8.5);
+  line(w*31.5, w*8.5, w*34.5, w*8.5);
 
 
-  if(mouseX > 1400 && mouseX < 1680 && mouseY > 400 && mouseY < 480) {
+  if(mouseX > w*36 && mouseX < (w*36 + w*7) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
     stroke(81, 255, 56, 160);
   } else {
     stroke(0);
   }
-  line(1380, 300, 1380, 260);
-  line(1380, 260, 1460, 260);
-  line(1460, 260, 1460, 300);
-  line(1460, 300, 1500, 300);
-  line(1500, 300, 1500, 340);
-  line(1500, 340, 1540, 340);
-  line(1540, 340, 1540, 399);
+  line(w*34.5, w*8.5, w*34.5, w*7.5);
+  line(w*34.5, w*7.5, w*36.5, w*7.5);
+  line(w*36.5, w*7.5, w*36.5, w*8.5);
+  line(w*36.5, w*8.5, w*37.5, w*8.5);
+  line(w*37.5, w*8.5, w*37.5, w*9.5);
+  line(w*37.5, w*9.5, w*38.5, w*9.5);
+  line(w*38.5, w*9.5, w*38.5, w*11 - 1);
 
-  if(mouseX > 760 && mouseX < 1160 && mouseY > 600 && mouseY < 680){
+  if(mouseX > w*20 && mouseX < (w*20 + w*10) && mouseY > (w*16) && mouseY < (w*16 + w*2)){
     stroke(255, 10, 5);
   } else {
     stroke(0);
   }
   //BRANCH OFF
-  line(1380, 300, 1380, 380);
-  line(1380, 380, 1340, 380);
-  line(1340, 380, 1340, 420);
-  line(1340, 420, 1300, 420);
-  line(1300, 420, 1300, 500);
-  line(1300, 500, 1340, 500);
-  line(1340, 500, 1340, 580);
-  line(1340, 580, 1060, 580);
-  line(1060, 580, 1060, 599);
+  line(w*34.5, w*8.5, w*34.5, w*10.5);
+  line(w*34.5, w*10.5, w*33.5, w*10.5);
+  line(w*33.5, w*10.5, w*33.5, w*11.5);
+  line(w*33.5, w*11.5, w*32.5, w*11.5);
+  line(w*32.5, w*11.5, w*32.5, w*13.5);
+  line(w*32.5, w*13.5, w*33.5, w*13.5);
+  line(w*33.5, w*13.5, w*33.5, w*15.5);
+  line(w*33.5, w*15.5, w*26.5, w*15.5);
+  line(w*26.5, w*15.5, w*26.5, w*16 - 1);
   //BRANCH OFF
 
   /*
   LINE 3 ENDS
   */
 
-
-
   stroke(0);
-  line(719, 100, 341, 100);
-  textSize(70);
-  text("800 x 800", 242, 465);
-  text("1920 x 920", 804, 465);
-  text("400 x 400", 1404, 465);
-  textSize(75);
-  text("INFORMATION", 764, 665);
+  line(w*18 - 1, w*3.5, w*12 + 1, w*3.5);
+  line(w*27 + 1, w*3.5, w*36 - 1, w*3.5);
+  pop();
+
+
+  push();
+  textSize(w + w/1.4);
+  text("20 x 20", w*7 + w/1.2, w*11 + w/0.6);
+  text("48 x 23", w*21 + w/0.7, w*11 + w/0.6);
+  text("10 x 10", w*36 + w/1.2, w*11 + w/0.6);
+  textSize(w + w/1.4);
+  text("INFORMATION", w*20 + w/1.5, w*16 + w/0.6);
   pop();
 }
 
@@ -401,93 +408,95 @@ function instructionsScreen() {
   background(0, 188, 255);
   generateMap();
   fill(0, 188, 255);
-  rect(680, 80, 440, 80);
+  //instruction box
+  rect(w*17, w*2, w*11, w*2);
 
 
-  rect(200, 80, 320, 40);
-  rect(40, 160, 600, 160);
+  //recursive
+  rect(w*5, w*2, w*8, w);
+  rect(w, w*4, w*15, w*4);
   //img
 
-  image(dfsImg1, 41, 361, 239, 239);
-  image(dfsImg2, 361, 361, 239, 239);
-  image(dfsImg3, 41, 641, 239, 239);
-  image(dfsImg4, 361, 641, 239, 239);
+  image(dfsImg1, w + 1, w*9 + 1, w*6 - 1, w*6 - 1);
+  image(dfsImg2, w*9 + 1, w*9 + 1, w*6 - 1, w*6 - 1);
+  image(dfsImg3, w + 1, w*16 + 1, w*6 - 1, w*6 - 1);
+  image(dfsImg4, w*9 + 1, w*16 + 1, w*6 - 1, w*6 - 1);
 
 
   fill(0);
   push();
   strokeWeight(4);
-  line(140, 322, 140, 359);
-  line(281, 460, 359, 460);
-  line(460, 602, 460, 620);
-  line(460, 620, 100, 620);
-  line(100, 620, 100, 638);
-  line(282, 740, 358, 740);
+  line(w*3.5, w*8 + 2, w*3.5, w*9 - 1);
+  line(w*7 + 1, w*11.5, w*9 - 1, w*11.5);
+  line(w*11.5, w*15 + 2, w*11.5, w*15.5);
+  line(w*11.5, w*15.5, w*2.5, w*15.5);
+  line(w*2.5, w*15.5, w*2.5, w*16 - 2);
+  line(w*7 + 2, w*18.5, w*9 - 2, w*18.5);
   pop();
   push();
-  textSize(84);
-  text("INFORMATION", width/3 + 42, 148);
+  textSize(w + w/1.4);
+  text("INFORMATION", w*17 + w, w*2 + w/0.6);
   pop();
-  textSize(35);
-  text("DEPTH-FIRST SEARCH", 210, 113);
-  text("THIS IS A PROGRAM THAT DEMONSTRATES",42, 195);
-  text("DEPTH'S-FIRST SEARCH ALGORITHM IN", 42 ,225);
-  text("ORDER TO GENERATE A MAZE USING AN", 42, 255);
-  text("ALGORITHM TECHNIQUE CALLED RECURSIVE", 42, 285);
-  text("BACKTRACKING", 42, 315);
+  textSize(w/1.1);
+  text("DEPTH-FIRST SEARCH", w*5 + w/6, w*2 + w/1.2);
+  text("THIS IS A PROGRAM THAT DEMONSTRATES",w, w*4 + w/1.1);
+  text("DEPTH'S-FIRST SEARCH ALGORITHM IN", w ,w*4 + w/0.6);
+  text("ORDER TO GENERATE A MAZE USING AN", w, w*4 + w/0.42);
+  text("ALGORITHM TECHNIQUE CALLED RECURSIVE",w, w*4 + w/0.32);
+  text("BACKTRACKING", w, w*4 + w/0.26);
 
   fill(200, 188, 255);
-  rect(720, 200, 360, 80);
+  rect(w*18, w*5, w*9, w*2);
   fill(0);
-  textSize(30);
-  text("PRESS 'ESC' ANY TIME TO EXIT\nDURING MAZE GEN./SOLVING", 724, 231);
+  textSize(w/1.4);
+  text("PRESS 'ESC' ANY TIME TO EXIT\nDURING MAZE GEN./SOLVING", w*18 + w/6.5, w*5 + w/1.3);
 
   //second half
   fill(0, 188, 255);
-  rect(1280, 120, 400, 40);
-  rect(1200, 200, 600, 280);
-  image(asaImg1, 1121, 521, 359, 359);
-  image(asaImg2, 1521, 521, 359, 359);
+  rect(w*32, w*3, w*10, w);
+  rect(w*30, w*5, w*15, w*7);
+  image(asaImg1, w*28 + 1, w*13 + 1, w*9 - 1, w*9 - 1);
+  image(asaImg2, w*38 + 1, w*13 + 1, w*9 - 1, w*9 - 1);
   fill(0);
 
   push();
   strokeWeight(4);
-  line(1260, 482, 1260, 518);
-  line(1482, 700, 1519, 700);
+  line(w*31.5, w*12 + 2, w*31.5, w*13 - 2);
+  line(w*37 + 2, w*17.5, w*38 - 1, w*17.5);
   pop();
 
-  textSize(35);
-  text("A-STAR SEARCH ALGORITHM", 1295, 153);
-  text("THE A-STAR PATH FINDING ALGORITHM IS",1210, 235);
-  text("USED TO FIND THE OPTIMUM SOLUTION TO", 1210 ,265);
-  text("GENERATED MAZE, USING A HEURISTIC ", 1210, 295);
-  text("FUNCTION TO ESTIMATE THE DISTANCE", 1210, 325);
-  text("FROM THE TARGET AT ANY GIVEN NODE. THE", 1210, 355);
-  text("FUNCTION USED IS THE PYTHAGOREAN", 1210, 385);
-  text("THEOREM. BASED ON THE HEURISTIC, THE", 1210, 415);
-  text("ALGORITHM IS ABLE TO DETERMINE THE", 1210, 445);
-  text("SHORTEST AND MOST OPTIMAL SOLUTION.", 1210, 475);
+  textSize(w/1.16);
+  text("A-STAR SEARCH ALGORITHM", w*32 + w/1.8, w*3 + w/1.2);
+  text("THE A-STAR PATH FINDING ALGORITHM IS",w*30, w*5 + w/1.2);
+  text("USED TO FIND THE OPTIMUM SOLUTION TO",  w*30 ,w*5 + w/0.64);
+  text("GENERATED MAZE, USING A HEURISTIC ", w*30 ,w*5 + w/0.44);
+  text("FUNCTION TO ESTIMATE THE DISTANCE", w*30, w*5 + w/0.335);
+  text("FROM THE TARGET AT ANY GIVEN NODE. THE", w*30, w*5 + w/0.27);
+  text("FUNCTION USED IS THE PYTHAGOREAN", w*30, w*5 + w/0.225);
+  text("THEOREM. BASED ON THE HEURISTIC, THE", w*30, w*5 + w/0.193);
+  text("ALGORITHM IS ABLE TO DETERMINE THE", w*30, w*5 + w/0.170);
+  text("SHORTEST AND MOST OPTIMAL SOLUTION.", w*30, w*5 + w/0.15);
 
-  if(mouseX > 1720 && mouseX < 1880 && mouseY > 40 && mouseY < 80) {
+  if(mouseX > w*43 && mouseX < (w*43 + w*4) && mouseY > w && mouseY < (w+w)) {
     fill(200, 31, 15);
   } else {
-    fill(100, 188, 255);
+    fill(w*2.5, 188, 255);
   }
-  rect(1720, 40, 160, 40);
+  rect(w*43, w, w*4, w);
   push();
-  if(mouseX > 1720 && mouseX < 1880 && mouseY > 40 && mouseY < 80) {
+  if(mouseX > w*43 && mouseX < (w*43 + w*4) && mouseY > w && mouseY < (w+w)) {
     stroke(200, 31, 15);
   } else {
     stroke(0);
   }
   strokeWeight(4);
-  line(1882, 60, 1900, 60);
-  line(1900, 60, 1900, 20);
-  line(1900, 20, 1920, 20);
+  line(w*47 + 2, w*1.5, w*47.5, w*1.5);
+  line(w*47.5, w*1.5, w*47.5, w*0.5);
+  line(w*47.5, w*0.5, w*48, w*0.5);
   pop();
   fill(0);
-  textSize(50);
-  text("RETURN ", 1724, 78);
+  textSize(w);
+  text("RETURN ", w*43 + w/2, w + w/1.2);
 }
 
 
@@ -500,14 +509,14 @@ function generateMaze() {
     stroke(200, 10, 10);
     strokeWeight(3);
 
-    for(var i = 0; i < width; i += 40) {
+    for(var i = 0; i < width; i += width/48) {
       if(i <= wid) {
         line(i, hei, i, height);
       } else {
         line(i, 0, i, height);
       }
     }
-    for(var i = 0; i < height; i += 40) {
+    for(var i = 0; i < height; i += width/48) {
       if(i <= hei) {
         line(hei, i, width, i);
       } else {
@@ -551,28 +560,23 @@ function generateMaze() {
 }
 
 function questionFunc() {
-  if(wid == 400) {
-    fill(0, 188, 255);
-    rect(640, 160, 200, 80);
-    textSize(80);
-    fill(0);
-    strokeWeight(3);
-    text("SOLVE", 642, 228);
-  } else if(wid == 800) {
-    fill(0, 188, 255);
-    rect(1040, 360, 200, 80);
-    textSize(80);
-    fill(0);
-    strokeWeight(3);
-    text("SOLVE", 1042, 428);
-  } else if(wid == 1920) {
+  push();
+  if(wid == w*48) {
     fill(0, 188, 255, 50);
-    rect(800, 440, 200, 80);
-    textSize(80);
-    fill(0, 0, 0, 100);
+    rect(w*20, w*10, w*5, w*2);
+    textSize(w/0.5);
+    fill(0, 0, 0, w*2.5);
     strokeWeight(3);
-    text("SOLVE", 802, 508);
+    text("SOLVE", w*20, w*10 + w/0.6);
+  } else {
+    fill(0, 188, 255);
+    rect(wid + w*5, w*5, w*5, w*2);
+    textSize(w/0.5);
+    fill(0);
+    strokeWeight(3);
+    text("SOLVE", wid + w*5, w*5 + w/0.6);
   }
+  pop();
 }
 
 function finishMaze() {
@@ -653,7 +657,7 @@ function finishMaze() {
   }
 
   for(var i = 0; i < closedSet.length; i++) {
-    closedSet[i].outline(color(100, 205, 205, 200));
+    closedSet[i].outline(color(w*2.5, 205, 205, 200));
   }
 
   for(var i = 0; i <grid.length; i++) {
@@ -763,7 +767,7 @@ function Cell(i, j) {
     if (this.visited) {
       push();
       noStroke();
-      fill(100, 255, 255, 200);
+      fill(w*2.5, 255, 255, 200);
       rect(x, y, w, w);
       pop();
     }

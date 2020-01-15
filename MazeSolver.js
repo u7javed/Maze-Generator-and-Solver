@@ -187,25 +187,25 @@ function titleScreen() {
   if(mouseX > w*7 && mouseX < (w*7 + w*7) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
     fill(81, 255, 56, 160);
   } else {
-    fill(0, 188, 255);
+    fill(250, 192, 45, 180);
   }
   rect(w*7, w*11, w*7, w*2);
   if(mouseX > w*21 && mouseX < (w*21 + w*8) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
     fill(81, 255, 56, 160);
   } else {
-    fill(0, 188, 255);
+    fill(250, 192, 45, 180);
   }
   rect(w*21, w*11, w*8, w*2);
   if(mouseX > w*36 && mouseX < (w*36 + w*7) && mouseY > (w*11) && mouseY < (w*11 + w*2)) {
     fill(81, 255, 56, 160);
   } else {
-    fill(0, 188, 255);
+    fill(250, 192, 45, 180);
   }
   rect(w*36, w*11, w*7, w*2);
   if(mouseX > w*20 && mouseX < (w*20 + w*10) && mouseY > (w*16) && mouseY < (w*16 + w*2)) {
     fill(255, 10, 5, 160);
   } else {
-    fill(0, 188, 255);
+    fill(250, 192, 45, 180);
   }
   rect(w*20, w*16, w*10, w*2);
 
@@ -224,7 +224,7 @@ function titleScreen() {
   text("OPTIMAL PATH FINDING", w*36 + w/12, w*3 + w/0.57)
   pop();
 
-  fill(0, 188, 255);
+  fill(250, 192, 45, 180);
   rect(w*20, w*20, w*10, w*2);
   fill(0);
   textSize(w + w/1.4);
